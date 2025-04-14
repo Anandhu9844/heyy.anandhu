@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANDHU</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .map-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        .who-am-i-section {
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .who-am-i-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .who-am-i-btn {
+            background: var(--accent-color);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .who-am-i-btn .btn-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .who-am-i-btn .btn-description {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .who-am-i-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: var(--accent-color-dark);
+        }
+
+        .answer-display {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(var(--accent-color-rgb), 0.1);
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .answer-display.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Background -->
+    <canvas class="grid-background" id="gridCanvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="images/assets/logo.png" alt="anandhu_logo" class="logo-image">
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cecmemories.html">CEC Memories</a>
+            <a href="about.html">About Me</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-text">
+                <h1>HI THERE<br>I AM ANANDHU</h1>
+                <p class="subtitle">web developer!</p>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section class="profile-section">
+            <div class="profile-container">
+                <div class="profile-image">
+                    <img src="images/me/anandhu.jpg" alt="anandhu Profile">
+                </div>
+                <div class="profile-text">
+                    <h2>About Me</h2>
+                    <p>I am a dedicated and committed student currently pursuing a Bachelor of Technology in Computer Science and Engineering from the College of Engineering Cherthala. I have a strong interest in programming and enjoy learning new concepts. I am a responsible, goal-oriented person who values teamwork, communication, and continuous improvement.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Section with 3D Effect -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <h1>Welcome to My World of Drawing</h1>
+                <p>I enjoy drawing and specialize in recreating existing artworks and portraits. My work focuses on capturing details and expressions as closely as possible, allowing me to improve my technique and understanding of visual art. Each drawing helps me explore the beauty of precision and the art of observation.</p>
+            </div>
+            <div class="hero-image">
+                <img src="images/assets/index.png" alt="Artist Portrait">
+            </div>
+        </section>
+
+        <!-- Navigation Buttons -->
+        <section class="nav-buttons">
+            <div class="button-container">
+                <a href="gallery.html" class="social-button">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery</span>
+                </a>
+                <a href="art.html" class="social-button">
+                    <i class="fas fa-palette"></i>
+                    <span>Art</span>
+                </a>
+              
+            </div>
+        </section>
+
+        <!-- Featured Works -->
+        <section class="portfolio-slider">
+            <h2>Featured Works</h2>
+            <div class="container">
+                <img src="images/assets/1.jpg" alt="Loki">
+                <img src="images/assets/2.jpg" alt="Black Panther">
+                <img src="images/assets/3.jpg" alt="Avengers">
+                <img src="images/assets/4.jpg" alt="Wolverine">
+                <img src="images/assets/5.jpg" alt="Spider-Man">
+            </div>
+        </section>
+
+        <!-- Spotify Section -->
+        <section class="spotify-section">
+            <h2>My favorate playlists</h2>
+            <div class="playlists-container">
+                <div class="playlist-item">
+                    <div class="playlist-info">
+                         <!--<img src="/api/placeholder/300/300" alt="Playlist 1 Cover" class="playlist-cover">-->
+                        <h3>Songs I wish to listen with'er</h3>
+                        <p>A heartfelt collection of romantic melodies and soulful tunes that stir emotions and inspire the depths of my imagination.</p>
+                    </div>
+                    <div class="spotify-embed">
+                        <iframe style="border-radius:12px" 
+                                src="https://open.spotify.com/embed/playlist/5YR5FMxqTRWoJVb8zHRg0Y?utm_source=generator" 
+                                width="100%" 
+                                height="352" 
+                                frameBorder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <div class="playlist-info">
+                        <!-- <img src="/api/placeholder/300/300" alt="Playlist 2 Cover" class="playlist-cover"> -->
+                        <h3>Late Night Emotions</h3>
+                        <p>A moody mix of love, heartbreak, and deep feelings. Perfect for quiet nights, heavy hearts, and moments lost in thought.</p>
+                    </div>
+                    <div class="spotify-embed">
+                        <iframe style="border-radius:12px" 
+                                src="https://open.spotify.com/embed/playlist/4vNXntfojSZhwAvqmincP3?utm_source=generator" 
+                                width="100%" 
+                                height="352" 
+                                frameBorder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="playlist-item">
+                    <div class="playlist-info">
+                         <!--<img src="/api/placeholder/300/300" alt="Playlist 3 Cover" class="playlist-cover">-->
+                        <h3>Dance Mood</h3>
+                        <p>A mix of energy, freedom, and passion. Perfect for letting go, feeling the beat, and dancing with joy.</p>
+                    </div>
+                    <div class="spotify-embed">
+                        <iframe style="border-radius:12px" 
+                                src="https://open.spotify.com/embed/playlist/2Y0qJbcIiGpu9aVGKTh4Lp?utm_source=generator" 
+                                width="100%" 
+                                height="352" 
+                                frameBorder="0" 
+                                allowfullscreen="" 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Links -->
+        <section class="social-links">
+            <h2>Connect With Me</h2>
+            <div class="social-icons">
+                <a href="https://instagram.com/heyy.anandhu_" target="_blank" class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                    <span>@heyy.anandhu_</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Fun Moments Section -->
+        <section class="fun-moments">
+            <h2>Fun Moments</h2>
+            <div class="video-grid">
+                <div class="video-item">
+                    <video src="video/fun/funny.mp4" loop muted>
+                        <source src="video/fun/funny.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <div class="video-controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                        </div>
+                        <p class="video-caption">Sendhil and ikka😂</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video src="video/fun/funny1.mp4" loop muted>
+                        <source src="video/fun/funny1.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <div class="video-controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                        </div>
+                        <p class="video-caption">Yani's dance 💃 </p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <video src="video/fun/funny2.mp4" loop muted>
+                        <source src="video/fun/funny2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <div class="video-controls">
+                            <button class="play-pause"><i class="fas fa-play"></i></button>
+                        </div>
+                        <p class="video-caption">Baloon blast 💥🤪</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CEC Memories Button -->
+        <section class="memories-section">
+            <div class="memories-button-container">
+                <button class="btn memories-btn" onclick="window.location.href='cecmemories.html'">
+                    <span class="btn-text">CEC Memories</span>
+                    <span class="btn-description">Explore my amazing college life journey</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Who am I to you Section -->
+        <section class="who-am-i-section">
+            <div class="who-am-i-container">
+                <button class="btn who-am-i-btn" id="whoAmIBtn">
+                    <span class="btn-text">Who am I to you?</span>
+                    <span class="btn-description">Click to find out!</span>
+                </button>
+                <div class="answer-display" id="answerDisplay"></div>
+            </div>
+        </section>
+
+        <!-- Location Section -->
+        <section class="location-section">
+            <h2>Where to Find Me</h2>
+            <div class="location-container">
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d252523.37704657998!2d76.33063098671875!3d9.498066699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0884f1aa296b61%3A0xb84764552c41f85a!2sAlappuzha%2C%20Kerala!5e0!3m2!1sen!2sin!4v1646132245687"
+                        width="100%" 
+                        height="400" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="location-info">
+                    <h3>Based in</h3>
+                    <p>Kerala, Alappuzha</p>
+                    <p class="location-description">The Venice of the East</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Password</h2>
+            <input type="password" id="artPassword" placeholder="Enter the password">
+            <button class="btn" onclick="checkPassword()">Submit</button>
+            <p class="password-hint">Hint: she is my all, at the end the year</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 HEYY_ANANDHU | All Rights Reserved | No reproduction or distribution without permission</p>
+        <p>Designed by HEYY_ANANDHU</p>    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target) && navLinks.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            }
+        });
+
+        // Who am I to you functionality
+        const whoAmIBtn = document.getElementById('whoAmIBtn');
+        const answerDisplay = document.getElementById('answerDisplay');
+        const answers = [
+            "Your best friend who always has your back! 🤗",
+            "The one who makes you laugh even on bad days 😄",
+            "Your partner in crime for all adventures! 🚀",
+            "The shoulder you can always lean on 💪",
+            "Your 3 AM friend who's always there to talk 🌙",
+            "The one who knows all your secrets (and keeps them!) 🤫",
+            "Your biggest cheerleader in life! 📣",
+            "The friend who brings snacks to every meetup 🍪",
+            "Your go-to person for honest advice 💭",
+            "The one who remembers your coffee order by heart ☕",
+            "Your personal meme supplier 😂",
+            "The friend who's terrible at replying but loves you anyway 📱",
+            "Your favorite person to share random thoughts with 💫",
+            "The one who knows your story better than anyone else 📖",
+            "Your daily dose of motivation and positivity ✨"
+        ];
+
+        // Function to generate a consistent random number based on user's fingerprint
+        function generateUserSpecificIndex(max) {
+            let fingerprint = '';
+            const userAgent = navigator.userAgent;
+            const screenRes = `${window.screen.width}x${window.screen.height}`;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            fingerprint = userAgent + screenRes + timezone;
+            
+            let hash = 0;
+            for (let i = 0; i < fingerprint.length; i++) {
+                const char = fingerprint.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            
+            // Make sure the hash is positive and within range
+            hash = Math.abs(hash);
+            return hash % max;
+        }
+
+        let hasClicked = false;
+        whoAmIBtn.addEventListener('click', () => {
+            if (!hasClicked) {
+                const userSpecificIndex = generateUserSpecificIndex(answers.length);
+                const answer = answers[userSpecificIndex];
+                answerDisplay.textContent = answer;
+                answerDisplay.classList.remove('active');
+                
+                // Force a reflow
+                void answerDisplay.offsetWidth;
+                
+                answerDisplay.classList.add('active');
+                
+                // Add button click effect
+                whoAmIBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    whoAmIBtn.style.transform = 'scale(1)';
+                }, 150);
+                
+                hasClicked = true;
+                whoAmIBtn.style.opacity = '0.7';
+                whoAmIBtn.style.cursor = 'default';
+            }
+        });
+    </script>
+</body>
+</html> 

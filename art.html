@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANDHU</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cursor-love {
+            width: 20px;
+            height: 20px;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 20px;
+            color: #ff6b6b;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: floating 1s ease-out forwards;
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            color: #ff6b6b;
+            mix-blend-mode: difference;
+        }
+
+        @keyframes floating {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .art-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            margin-top: 80px;
+            user-select: none;
+        }
+
+        .art-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .art-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .art-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .art-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            user-select: none;
+        }
+
+        .art-item:hover .art-overlay {
+            opacity: 1;
+        }
+
+        body {
+            cursor: none;
+        }
+
+        .easter-egg-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .easter-egg-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .easter-egg-overlay h2 {
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+
+        .easter-egg-overlay p {
+            margin-bottom: 1rem;
+        }
+
+        .easter-egg-counter {
+            font-size: 0.9rem;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">❤</div>
+
+    <!-- Grid Background -->
+    <canvas class="grid-background" id="gridCanvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="images/assets/logo.png" alt="anandhu_logo" class="logo-image">
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cecmemories.html">CEC Memories</a>
+            <a href="art.html" class="active">Art</a>
+        </nav>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="art-container" id="artContainer">
+            <!-- Art items will be dynamically loaded here -->
+        </div>
+        <div class="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 HEYY_ANANDHU | All Rights Reserved | No reproduction or distribution without permission</p>
+        <p>Designed by HEYY_ANANDHU</p>    </footer>
+
+    <!-- Easter Egg Overlay -->
+    <div class="easter-egg-overlay" id="easterEggOverlay">
+        <h2>🎵 Easter Egg Found! 🎵</h2>
+        <p>Wow, you just discovered an Easter egg!</p>
+        <p>Find 10 more!</p>
+        <p class="easter-egg-counter">Press 'S' to stop the music</p>
+    </div>
+
+    <script>
+        // Prevent inspection
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Create floating hearts with reduced frequency
+            if (Math.random() > 0.95) {
+                const heart = document.createElement('div');
+                heart.className = 'cursor-love';
+                heart.innerHTML = '❤';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 1000);
+            }
+        });
+
+        // Art items data (12 items per page)
+        const artItems = [
+            { src: 'images/art/art1.jpg', title: 'Cosmic Dreams' },
+            { src: 'images/art/art2.jpg', title: 'Digital Echoes' },
+            { src: 'images/art/art3.jpg', title: 'Neon Nights' },
+            { src: 'images/art/art4.jpg', title: 'Abstract Thoughts' },
+            { src: 'images/art/art5.jpg', title: 'Urban Symphony' },
+            { src: 'images/art/art6.jpg', title: 'Nature\'s Whisper' },
+            { src: 'images/art/art7.jpg', title: 'Digital Dreams' },
+            { src: 'images/art/art8.jpg', title: 'Cyber Punk' },
+            { src: 'images/art/art9.jpg', title: 'Future Vision' },
+            { src: 'images/art/art10.jpg', title: 'Tech Art' },
+            { src: 'images/art/art11.jpg', title: 'Modern Times' },
+            { src: 'images/art/art12.jpg', title: 'Digital Age' },
+            // Page 2
+            { src: 'images/art/art13.jpg', title: 'Virtual Reality' },
+            { src: 'images/art/art14.jpg', title: 'Digital Landscape' },
+            { src: 'images/art/art15.jpg', title: 'Cyber World' },
+            { src: 'images/art/art16.jpg', title: 'Future City' },
+            { src: 'images/art/art17.jpg', title: 'Digital Nature' },
+            { src: 'images/art/art18.jpg', title: 'Tech Future' },
+            { src: 'images/art/art19.jpg', title: 'Modern Art' },
+            { src: 'images/art/art20.jpg', title: 'Digital Space' },
+            { src: 'images/art/art21.jpg', title: 'Cyber Space' },
+            { src: 'images/art/art22.jpg', title: 'Virtual World' },
+            { src: 'images/art/art23.jpg', title: 'Digital Universe' },
+            { src: 'images/art/art24.jpg', title: 'Tech World' },
+            // Page 3
+            { src: 'images/art/art25.jpg', title: 'Future Space' },
+            { src: 'images/art/art26.jpg', title: 'Digital City' },
+            { src: 'images/art/art27.jpg', title: 'Cyber Nature' },
+            { src: 'images/art/art28.jpg', title: 'Modern World' },
+            { src: 'images/art/art29.jpg', title: 'Virtual Space' },
+            { src: 'images/art/art30.jpg', title: 'Digital Future' },
+            { src: 'images/art/art31.jpg', title: 'Tech Space' },
+            { src: 'images/art/art32.jpg', title: 'Cyber Future' },
+            { src: 'images/art/art33.jpg', title: 'Virtual Nature' },
+            { src: 'images/art/art34.jpg', title: 'Digital World' },
+            { src: 'images/art/art35.jpg', title: 'Tech Nature' },
+            { src: 'images/art/art36.jpg', title: 'Future World' }
+        ];
+
+        const itemsPerPage = 12;
+        let currentPage = 1;
+
+        // Display art items for the current page
+        function displayArtItems(page) {
+            const container = document.getElementById('artContainer');
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            
+            container.innerHTML = '';
+            
+            const itemsToShow = artItems.slice(start, end);
+            itemsToShow.forEach(item => {
+                const artItem = document.createElement('div');
+                artItem.className = 'art-item';
+                artItem.draggable = false;
+                
+                const img = document.createElement('img');
+                img.src = item.src;
+                img.alt = item.title;
+                img.draggable = false;
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'art-overlay';
+                overlay.innerHTML = `<h3>${item.title}</h3>`;
+                
+                artItem.appendChild(img);
+                artItem.appendChild(overlay);
+                container.appendChild(artItem);
+            });
+        }
+
+        // Handle pagination clicks
+        document.querySelectorAll('.page-btn').forEach((button, index) => {
+            button.addEventListener('click', () => {
+                currentPage = index + 1;
+                
+                // Update active button
+                document.querySelectorAll('.page-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+                
+                // Display items for the selected page
+                displayArtItems(currentPage);
+                
+                // Smooth scroll to top of container
+                document.querySelector('.art-container').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Initialize the first page
+        displayArtItems(currentPage);
+
+        // Additional security measures
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && 
+                (e.key === 's' || 
+                 e.key === 'S' || 
+                 e.key === 'u' || 
+                 e.key === 'U' || 
+                 e.key === 'p' || 
+                 e.key === 'P')) {
+                e.preventDefault();
+            }
+        });
+
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Spotify Integration
+        let typedWord = '';
+        let easterEggCount = 0;
+        let currentAudio = null;
+
+        // Function to get a random song from music folder
+        async function playRandomSong() {
+            try {
+                const response = await fetch('music/');
+                const songFiles = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(songFiles, 'text/html');
+                const links = Array.from(doc.querySelectorAll('a'))
+                    .map(a => a.href)
+                    .filter(href => href.endsWith('.mp3'));
+                
+                if (links.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * links.length);
+                    const songPath = links[randomIndex].split('/').pop();
+                    return `music/${songPath}`;
+                }
+                return null;
+            } catch (error) {
+                console.error('Error loading songs:', error);
+                return null;
+            }
+        }
+
+        document.addEventListener('keypress', async function(e) {
+            // Don't trigger if typing in a text input or password field
+            if (e.target.tagName.toLowerCase() === 'input' && 
+                (e.target.type === 'text' || e.target.type === 'password')) {
+                return;
+            }
+
+            if (e.key.toLowerCase() === 's') {
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                    document.getElementById('easterEggOverlay').classList.remove('active');
+                }
+                typedWord = '';
+                return;
+            }
+
+            typedWord += e.key.toLowerCase();
+            
+            // Check if the word "devayani" is typed
+            if (typedWord.includes('devayani')) {
+                easterEggCount++;
+                
+                // Stop previous song if playing
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
+
+                // Play random song from music folder
+                const songPath = await playRandomSong();
+                if (songPath) {
+                    currentAudio = new Audio(songPath);
+                    currentAudio.play();
+
+                    // Show overlay
+                    const overlay = document.getElementById('easterEggOverlay');
+                    overlay.querySelector('p:nth-child(3)').textContent = 'Find 10 more!';
+                    overlay.classList.add('active');
+
+                    // Reset typed word
+                    typedWord = '';
+
+                    // Hide overlay after 3 seconds
+                    setTimeout(() => {
+                        if (overlay.classList.contains('active')) {
+                            overlay.classList.remove('active');
+                        }
+                    }, 3000);
+                }
+            }
+
+            // Reset typed word if it's too long
+            if (typedWord.length > 20) {
+                typedWord = '';
+            }
+        });
+    </script>
+</body>
+</html> 

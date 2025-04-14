@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANDHU</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Grid Background -->
+    <canvas class="grid-background" id="gridCanvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="images/assets/logo.png" alt="anandhu_logo" class="logo-image">
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cecmemories.html" class="active">CEC Memories</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Memories Header -->
+        <section class="memories-header">
+            <h1>CEC Memories</h1>
+            <p>A journey through my amazing college life</p>
+        </section>
+
+        <!-- Media Grid -->
+        <section class="memories-grid-container">
+            <div class="memories-grid" id="memoriesGrid">
+                <!-- Grid boxes will be populated by JavaScript -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons will be added by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Sticky Notes Section -->
+        <section class="sticky-notes-section">
+            <div class="sticky-note sticky-yellow">
+                <p>"The best memories are made in unexpected moments. Keep exploring! 🌟"</p>
+            </div>
+            <div class="sticky-note sticky-orange">
+                <p>"Every picture tells a story, every video captures a moment that'll never come back. 📸✨"</p>
+            </div>
+            <div class="sticky-note sticky-yellow">
+                <p>"CEC - where dreams take flight and friendships last forever! 🚀💫"</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 HEYY_ANANDHU | All Rights Reserved | No reproduction or distribution without permission</p>
+        <p>Designed by HEYY_ANANDHU</p>    </footer>
+
+    <script>
+        // Media Grid Configuration
+        const ITEMS_PER_PAGE = 12;
+        
+        // Sample media items with 14 initial placeholders
+        const mediaItems = [
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec1.jpg', 
+                caption: 'First Day at CEC' 
+            },
+            { 
+                type: 'video', 
+                src: 'videos/placeholders/cec2.mp4', 
+                caption: 'College Festival Moments' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec3.jpg', 
+                caption: 'Lab Session' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec4.jpg', 
+                caption: 'Friends Gathering' 
+            },
+            { 
+                type: 'video', 
+                src: 'videos/placeholders/cec5.mp4', 
+                caption: 'Cultural Performance' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec6.jpg', 
+                caption: 'Project Presentation' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec7.jpg', 
+                caption: 'Campus Life' 
+            },
+            { 
+                type: 'video', 
+                src: 'videos/placeholders/cec8.mp4', 
+                caption: 'Sports Day' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec9.jpg', 
+                caption: 'Library Study Session' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec10.jpg', 
+                caption: 'Group Discussion' 
+            },
+            { 
+                type: 'video', 
+                src: 'videos/placeholders/cec11.mp4', 
+                caption: 'Tech Fest Highlights' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec12.jpg', 
+                caption: 'Classroom Memories' 
+            },
+            { 
+                type: 'image', 
+                src: 'images/placeholders/cec13.jpg', 
+                caption: 'College Trip' 
+            },
+            { 
+                type: 'video', 
+                src: 'videos/placeholders/cec14.mp4', 
+                caption: 'Farewell Celebration' 
+            }
+        ];
+
+        // Function to load media items
+        function loadMediaItems() {
+            const grid = document.getElementById('memoriesGrid');
+            if (!grid) return;
+
+            // Clear existing content
+            grid.innerHTML = '';
+
+            // Add media items
+            mediaItems.forEach((item, index) => {
+                const box = document.createElement('div');
+                box.className = 'memory-box';
+                
+                // Hide items beyond the first page initially
+                if (index >= ITEMS_PER_PAGE) {
+                    box.style.display = 'none';
+                }
+
+                // Create media element (image or video)
+                if (item.type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = item.src;
+                    video.loop = true;
+                    video.muted = true;
+                    box.appendChild(video);
+
+                    // Add play button overlay
+                    const overlay = document.createElement('div');
+                    overlay.className = 'overlay';
+                    const playBtn = document.createElement('button');
+                    playBtn.className = 'play-button';
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    overlay.appendChild(playBtn);
+                    box.appendChild(overlay);
+
+                    // Add video controls
+                    playBtn.addEventListener('click', () => {
+                        if (video.paused) {
+                            video.play();
+                            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        } else {
+                            video.pause();
+                            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                        }
+                    });
+                } else {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = item.caption || 'Memory';
+                    box.appendChild(img);
+                }
+
+                // Add caption overlay if exists
+                if (item.caption) {
+                    const overlay = document.createElement('div');
+                    overlay.className = 'overlay';
+                    const caption = document.createElement('p');
+                    caption.textContent = item.caption;
+                    overlay.appendChild(caption);
+                    box.appendChild(overlay);
+                }
+
+                grid.appendChild(box);
+            });
+
+            // Setup pagination
+            setupPagination();
+        }
+
+        // Function to handle pagination
+        function setupPagination() {
+            const totalPages = Math.ceil(mediaItems.length / ITEMS_PER_PAGE);
+            const pagination = document.getElementById('pagination');
+            if (!pagination) return;
+
+            pagination.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.className = 'page-btn' + (i === 1 ? ' active' : '');
+                button.textContent = i;
+                
+                button.addEventListener('click', () => {
+                    // Update active button
+                    document.querySelectorAll('.page-btn').forEach(btn => 
+                        btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Show/hide appropriate items
+                    const boxes = document.querySelectorAll('.memory-box');
+                    boxes.forEach((box, index) => {
+                        const shouldShow = index >= (i - 1) * ITEMS_PER_PAGE && 
+                                        index < i * ITEMS_PER_PAGE;
+                        box.style.display = shouldShow ? 'block' : 'none';
+                    });
+
+                    // Smooth scroll to top of grid
+                    document.querySelector('.memories-grid-container')
+                        .scrollIntoView({ behavior: 'smooth' });
+                });
+                
+                pagination.appendChild(button);
+            }
+        }
+
+        // Initialize the grid when the page loads
+        document.addEventListener('DOMContentLoaded', loadMediaItems);
+    </script>
+</body>
+</html> 

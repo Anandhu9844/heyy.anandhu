@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANDHU</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Grid Background -->
+    <canvas class="grid-background" id="gridCanvas"></canvas>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="images/assets/logo.png" alt="anandhu_logo" class="logo-image">
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="gallery.html" class="active">Gallery</a>
+        </nav>
+        <button class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <section class="gallery-section">
+            <h2>Art Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="/api/placeholder/400/300" alt="Gallery Image 6">
+                </div>
+            </div>
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 HEYY_ANANDHU | All Rights Reserved | No reproduction or distribution without permission</p>
+        <p>Designed by HEYY_ANANDHU</p>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const body = document.body;
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target) && navLinks.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html> 
