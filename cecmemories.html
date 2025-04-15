@@ -70,73 +70,73 @@
         const mediaItems = [
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec1.jpg', 
-                caption: 'First Day at CEC' 
+                src: 'images/cec/cec_mem1.jpg', 
+                caption: 'cec_block' 
             },
             { 
                 type: 'video', 
-                src: 'videos/placeholders/cec2.mp4', 
-                caption: 'College Festival Moments' 
+                src: 'video/cec/cec_vid1.mp4', 
+                caption: 'ah.ah.ah' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec3.jpg', 
-                caption: 'Lab Session' 
+                src: 'images/cec/cec_mem2.jpg',           
+                caption: 'ring' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec4.jpg', 
-                caption: 'Friends Gathering' 
+                src: 'images/cec/cec_mem3.jpg',          
+               caption: 'lab' 
             },
             { 
                 type: 'video', 
-                src: 'videos/placeholders/cec5.mp4', 
-                caption: 'Cultural Performance' 
+                src: 'video/cec/cec_vid2.mp4', 
+                caption: 'pushppa_raj' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec6.jpg', 
-                caption: 'Project Presentation' 
+                src: 'images/cec/cec_mem4.jpg',          
+               caption: 'chill' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec7.jpg', 
-                caption: 'Campus Life' 
+                src: 'images/cec/cec_mem5.jpg',             
+                caption: 'bus_stop' 
             },
             { 
                 type: 'video', 
-                src: 'videos/placeholders/cec8.mp4', 
-                caption: 'Sports Day' 
+                src: 'video/cec/cec_vid3.mp4', 
+                caption: 'DaySports ' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec9.jpg', 
-                caption: 'Library Study Session' 
+                src: 'images/cec/cec_mem6.jpg',           
+                caption: 'wednesday' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec10.jpg', 
-                caption: 'Group Discussion' 
+                src: 'images/cec/cec_mem7.jpg',               
+                caption: 'Spiderrrrrr_man' 
             },
             { 
                 type: 'video', 
-                src: 'videos/placeholders/cec11.mp4', 
-                caption: 'Tech Fest Highlights' 
+                src: 'video/cec/cec_vid4.mp4', 
+                caption: 'oombi' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec12.jpg', 
-                caption: 'Classroom Memories' 
+                src: 'images/cec/cec_mem8.jpg',              
+               caption: 'nikhil_sir_bday' 
             },
             { 
                 type: 'image', 
-                src: 'images/placeholders/cec13.jpg', 
-                caption: 'College Trip' 
+                src: 'images/cec/cec_mem9.jpg',                
+                caption: '👀' 
             },
             { 
                 type: 'video', 
-                src: 'videos/placeholders/cec14.mp4', 
-                caption: 'Farewell Celebration' 
+                src: 'video/cec/cec_vid5.mp4', 
+                caption: 'hackathon💦' 
             }
         ];
 
@@ -161,9 +161,15 @@
                 // Create media element (image or video)
                 if (item.type === 'video') {
                     const video = document.createElement('video');
-                    video.src = item.src;
+                    video.className = 'memory-video';
+                    video.autoplay = true;
                     video.loop = true;
                     video.muted = true;
+                    video.playsinline = true;
+                    const source = document.createElement('source');
+                    source.src = item.src;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
                     box.appendChild(video);
 
                     // Add play button overlay
